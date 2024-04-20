@@ -1,0 +1,156 @@
+<sequence values="BRWDYGCO" origin="True">
+  <one in="RBB" out="GWR" steps="1"/>
+  <all>
+    <rule in="R*B" out="**D"/>
+    <rule in="D*B" out="**D"/>
+  </all>
+  <one in="RBB" out="WWR" search="True" limit="1000" depthCoefficient="-1.0">
+    <observe value="D" from="B" to="RW"/>
+    <observe value="R" to="W"/>
+    <observe value="B" to="BW"/>
+  </one>
+
+
+  <all in="B" out="D"/>
+   <!--
+      <map scale="3 3 1" values="BRWDYGCO">
+      <rule in="W" out="WWW/WWW/WWW"/>
+      <rule in="R" out="RRR/RRR/RRR"/>
+      <rule in="G" out="GGG/GGG/GGG"/>
+      <rule in="D" out="DDD/DDD/DDD"/>
+      -->
+    <map scale="3 3 1" values="BRWDYGCO">
+      <rule in="W" out="WWW/WWW/WWW"/>
+      <rule in="R" out="RRR/RRR/RRR"/>
+      <rule in="G" out="GGG/GGG/GGG"/>
+      <rule in="D" out="DDD/DDD/DDD"/>
+      <map scale="4 4 1" values="BRWDYGCO">
+        <rule in="W" out="WWWW/WWWW/WWWW/WWWW"/>
+        <rule in="R" out="RRRR/RRRR/RRRR/RRRR"/>
+        <rule in="G" out="GGGG/GGGG/GGGG/GGGG"/>
+        <rule in="D" out="DDDD/DDDD/DDDD/DDDD"/>
+
+        <!--Expand White Area-->
+        <all in="WD" out="WW" steps="3"/>
+        <all in="DW/WD" out="*W/W*" steps="3"/>
+
+        <convchain sample="SomeRooms" on="W" black="B" white="W" n="5" steps="50"/>
+        <all in="G" out="C"/>
+        <all in="CB" out="GB"/>
+        <markov>
+          <!-- (Wider Connecting Tunnel)
+          <prl in="**/Y*/**" out="GG/GG/GG"/>-->
+          <prl in="Y" out="G"/>
+          <prl in="GW" out="*G"/>
+          <path from="G" to="W" on="B" color="Y" intertia="true"/>
+        </markov>
+
+        <!--Connect To Ending-->
+        <prl in="RG" out="RB"/>
+        <one in="RB" out="WB" steps="2"/>
+        <path from="G" to="W" on="B" color="Y" intertia="true" longest="true" steps="1"/>
+        <prl in="Y" out="G"/>
+        <prl in="W" out="R"/>
+        <all in="GB/BG" out="GB/GG"/>
+        <all in="BBB/BGB" out="BBB/BBB" />
+
+        <!--Create Path-->
+        <sequence>
+          <path from="C" to="R" on="G" color="Y" intertia="true" longest="true" steps="1"/>
+          <all in="*Y*/BGB" out="*Y*/BYB" steps="6"/>
+          <prl in="YG" out="YY" steps="16"/>
+          <prl in="G" out="B"/>
+        </sequence>
+
+        <!--Isolate Inside Blocks
+        <prl in="DB" out="DD"/>
+        <prl in="B" out="W"/>
+        -->
+
+        <prl in="Y" out="G"/>
+        <prl in="D" out="B"/>
+
+        <!--Smoothen
+        <all in="GGG/GGG/GGB" out="GGG/GGG/GGG"/>
+                <all in="GGG/GGB/GBB" out="GGG/GGG/GGG"/>
+
+        -->
+        <all in="GB/BG" out="GB/GG"/>
+
+        <markov>
+          <all in="BBB/BGB" out="BBB/BBB"/>
+          <all in="BBBB/BGGB" out="BBBB/BBBB"/>
+          <all in="BBBBB/BGGGB/*GGG*" out="BBBBB/BBBBB/*GGG*"/>
+          <all in="BBBBBB/BGGGGB/*GGGG*" out="BBBBBB/BBBBBB/*GGGG*"/>
+        </markov>
+
+
+          <map scale="1 1 1" values="BRWDYGCO">
+
+          <rule in="W" out="W"/>
+          <rule in="R" out="R"/>
+          <rule in="G" out="G"/>
+          <rule in="D" out="D"/>
+          <rule in="B" out="B"/>
+          <rule in="C" out="C"/>
+
+
+
+
+<!--
+          <map scale="2 2 1" values="BRWDYGCO">
+
+          <rule in="W" out="WW/WW"/>
+          <rule in="R" out="RR/RR"/>
+          <rule in="G" out="GG/GG"/>
+          <rule in="D" out="DD/DD"/>
+          <rule in="B" out="BB/BB"/>
+          <rule in="C" out="CC/CC"/>
+-->
+<!--
+          <map scale="1 1 1" values="BRWDYGCO">
+
+          <rule in="W" out="W"/>
+          <rule in="R" out="R"/>
+          <rule in="G" out="G"/>
+          <rule in="D" out="D"/>
+          <rule in="B" out="B"/>
+          <rule in="C" out="C"/>
+-->
+          <!--Make 2 wide tunnels a little less insane
+          <all in="BBBB/GGGG/BBBB" out="BBBB/GGGG/GGGG" symmetry="(xy)" steps="100"/>-->
+
+          <!--Turn walls into freeze-->
+          <all in="GB" out="GD"/>
+
+          <all in="*G/B*" out="*G/D*"/>
+
+          <all in="WG" out="WD"/>
+          <all in="*W/G*" out="*W/D*"/>
+          <all in="W" out="B"/>
+          <!--Add Interier Freeze Features
+          <one in="DGGGGG/DGGGGG/DGGGGG" out="DGGGGG/DDDDGG/DGGGGG" steps="300"/>
+          <one in="DGGG/DGGG/DGGG" out="DGGG/DDGG/DGGG" steps="1"/>-->
+
+          <!--Add finish bits-->
+          <all in="CG" out="CY"/>
+          <all in="CD" out="CY"/>
+          <all in="RG" out="RW"/>
+          <all in="RD" out="RW"/>
+
+          <one in="C" out="O" steps="6"/>
+       <!--  </map>-->
+      </map>
+      </map>
+    </map>
+  </sequence>
+
+  <!--
+            <all in="Y" out="W">
+      <path from="G" to="R" on="B" color="G" intertia="true"/>
+
+        <all in="WB" out="YB">
+        <all in="*B/W*" out="*B/Y*">
+        <all in="Y" out="W">
+
+-->
