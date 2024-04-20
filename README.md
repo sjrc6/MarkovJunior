@@ -1,5 +1,5 @@
 # GoresMapJunior
-
+The maps will show up in `output`
 
 ## How to build
 MarkovJunior interpreter is a console application that depends only on the standard library. Get [.NET Core](https://dotnet.microsoft.com/download) for Windows, Linux or macOS and run
