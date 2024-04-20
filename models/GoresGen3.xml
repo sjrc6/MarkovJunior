@@ -22,7 +22,12 @@
 
 
   <all in="B" out="D"/>
-   <!--
+  <map scale="2 2 1" values="BRWDYGCO">
+    <rule in="W" out="WW/WW"/>
+    <rule in="R" out="RR/RR"/>
+    <rule in="G" out="GG/GG"/>
+    <rule in="D" out="DD/DD"/>
+    <!--
       <map scale="3 3 1" values="BRWDYGCO">
       <rule in="W" out="WWW/WWW/WWW"/>
       <rule in="R" out="RRR/RRR/RRR"/>
@@ -44,13 +49,14 @@
         <all in="WD" out="WW" steps="3"/>
         <all in="DW/WD" out="*W/W*" steps="3"/>
 
-        <convchain sample="Room" on="W" black="B" white="W" n="4" steps="25"/>
+        <convchain sample="SomeRooms" on="W" black="B" white="W" n="4" steps="25"/>
         <all in="G" out="C"/>
 
         <!-- this prevents blocked start -->
         <all in="CB" out="CG"/>
         <all in="CW" out="CG"/>
 
+        <prl in="RB" out="RW"/>
         <!--Ensure path to end exists-->
         <markov>
           <!-- (Wider Connecting Tunnel)
@@ -62,9 +68,6 @@
         </markov>
 
         <!--Connect To Ending-->
-        <prl in="RG" out="RB"/>
-        <one in="RB" out="WB" steps="2"/>
-        <path from="G" to="W" on="B" color="Y" intertia="true" longest="true" steps="1"/>
         <prl in="Y" out="G"/>
         <prl in="W" out="R"/>
         <all in="GB/BG" out="GB/GG"/>
@@ -75,14 +78,16 @@
           <path from="C" to="R" on="G" color="Y" intertia="true" longest="true" steps="1"/>
         </sequence>
 
-        <!--Ensure 2 tiler path exists-->
-        <prl in="Y*/**" out="YY/YY" steps="1" symmetry="()"/>
+        <!--Ensure 2 tiler path exists
+        <prl in="YB/**" out="*G/**" steps="1" symmetry="()"/>
+        <prl in="Y*/B*" out="**/G*" steps="1" symmetry="()"/>
+        <prl in="Y*/*B" out="**/*G" steps="1" symmetry="()"/>-->
 
         <!--Flood Fill out path width-->
         <sequence>
           <all in="*Y*/BGB" out="*Y*/BYB" steps="6"/>
 
-          <prl in="YG" out="YY" steps="16"/>
+          <prl in="YG" out="YY" steps="24"/>
           <prl in="G" out="B"/>
         </sequence>
 
@@ -92,6 +97,44 @@
         -->
 
         <prl in="Y" out="G"/>
+
+        <path from="C" to="R" on="G" color="Y" intertia="true" longest="false"/>
+
+        <prl in="DB" out="DD"/>
+        <prl in="BGD" out="BGO"/>
+        <prl in="B**/*G*/**D" out="B**/*G*/**O"/>
+        <prl in="B**/*GD/***" out="B**/*GO/***"/>
+
+        <!--
+        <prl in="YD/**" out="*G/**" symmetry="()"/>
+        <prl in="Y*/D*" out="**/G*" symmetry="()"/>
+        <prl in="Y*/*D" out="**/*G" symmetry="()"/>-->
+        <!-- 
+        <prl in="DYD" out="DYO" symmetry="()"/>
+
+        
+        <prl in="*D*/*Y*/**D" out="*D*/*Y*/**O" symmetry="()"/>
+        <prl in="***/DY*/**D" out="***/DY*/**O" symmetry="()"/>
+
+        <prl in="D**/*Y*/**D" out="D**/*Y*/**O" symmetry="()"/>
+        <prl in="D**/*YD/***" out="D**/*YO/***" symmetry="()"/>
+        <prl in="D**/*Y*/*D*" out="D**/*Y*/*O*" symmetry="()"/>
+
+        <prl in="D/Y/D" out="D/Y/O" symmetry="()"/> -->
+
+        <prl in="DYD" out="DSD"/>
+        <!-- <prl in="D**/*Y*/**D" out="D**/*S*/**D"/> -->
+        <prl in="S*/**" out="YY/YY" symmetry="(xy+)"/>
+
+        <prl in="BG" out="BS"/>
+        <prl in="SG" out="SS" steps="2"/>
+
+        <markov>
+          <prl in="GS/SS" out="SS/SS"/>
+          <prl in="O" out="S"/>
+        </markov>
+        <prl in="BBSB" out="BBBB"/>
+
         <prl in="D" out="B"/>
 
         <!--Smoothen
@@ -105,18 +148,22 @@
           <all in="BBB/BGB" out="BBB/BBB"/>
           <all in="BBBB/BGGB" out="BBBB/BBBB"/>
           <all in="BBBBB/BGGGB/*GGG*" out="BBBBB/BBBBB/*GGG*"/>
-          <!--<all in="BBBBBB/BGGGGB/*GGGG*" out="BBBBBB/BBBBBB/*GGGG*"/>
-                  
+          <all in="BBBBBB/BGGGGB/*GGGG*" out="BBBBBB/BBBBBB/*GGGG*"/>
 
-          <all in="BBBBBBB/BGGGGGB/*GGGGG*" out="BBBBBBB/BBBBBBB/*GGGGG*"/>
+
+          <!--<all in="BBBBBBB/BGGGGGB/*GGGGG*" out="BBBBBBB/BBBBBBB/*GGGGG*"/>
           <all in="BBBBBBBB/BGGGGGGB/*GGGGGG*" out="BBBBBBBB/BBBBBBBB/*GGGGGG*"/>
             <all in="BBBBBBBBB/BGGGGGGGB/*GGGGGGG*" out="BBBBBBBBB/BBBBBBBBB/*GGGGGGG*"/>
           <all in="BBBBBBBBBB/BGGGGGGGGB/*GGGGGGGG*" out="BBBBBBBBBB/BBBBBBBBBB/*GGGGGGGG*"/>
             
           -->
         </markov>
+        <prl in="S" out="G"/>
+        <prl in="Y" out="G"/>
+        <prl in="O" out="G"/>
 
-          <map scale="1 1 1" values="BRWDYGCOSE">
+
+        <map scale="1 1 1" values="BRWDYGCOSE">
 
           <rule in="W" out="W"/>
           <rule in="R" out="R"/>
@@ -125,8 +172,8 @@
           <rule in="B" out="B"/>
           <rule in="C" out="C"/>
 
-<!--
-        <map scale="2 1 1" values="BRWDYGCOSE">
+          <!--
+          <map scale="2 1 1" values="BRWDYGCOSE">
           <rule in="B" out="B"/>
           <rule in="R" out="R"/>
           <rule in="W" out="W"/>
@@ -137,9 +184,9 @@
           <prl in="G*" out="GG" steps="1" symmetry="()"/>
           <prl in="R*" out="RR" steps="1" symmetry="()"/>
           <prl in="C*" out="CC" steps="1" symmetry="()"/>
--->
+          -->
 
-<!--
+          <!--
           <map scale="1 2 1" values="BRWDYGCOSE">
           <rule in="B" out="B"/>
           <rule in="R" out="R"/>
@@ -151,9 +198,9 @@
           <prl in="G/*" out="G/G" steps="1" symmetry="()"/>
           <prl in="R/*" out="R/R" steps="1" symmetry="()"/>
           <prl in="C/*" out="C/C" steps="1" symmetry="()"/>
--->
+          -->
 
-<!--
+          <!--
           <map scale="2 1 1" values="BRWDYGCOSE">
 
           <rule in="W" out="WW"/>
@@ -162,9 +209,9 @@
           <rule in="D" out="DD"/>
           <rule in="B" out="BB"/>
           <rule in="C" out="CC"/>
--->
+          -->
 
-<!--
+          <!--
           <map scale="2 2 1" values="BRWDYGCOSE">
 
           <rule in="W" out="WW/WW"/>
@@ -173,8 +220,8 @@
           <rule in="D" out="DD/DD"/>
           <rule in="B" out="BB/BB"/>
           <rule in="C" out="CC/CC"/>
--->
-<!--
+          -->
+          <!--
           <map scale="1 1 1" values="BRWDYGCOSE">
 
           <rule in="W" out="W"/>
@@ -183,7 +230,7 @@
           <rule in="D" out="D"/>
           <rule in="B" out="B"/>
           <rule in="C" out="C"/>
--->
+          -->
           <!--Make 2 wide tunnels a little less insane
           <all in="BBBB/GGGG/BBBB" out="BBBB/GGGG/GGGG" symmetry="(xy)" steps="100"/>-->
 
@@ -205,25 +252,25 @@
           <all in="RG" out="RW"/>
           <all in="RD" out="RW"/>
 
-      
+
           <!--Middle Platforms-->
           <markov>
-          <sequence>
-            <one in="GGGGG/GGGGG/GGGGG/DDDDD" out="GGGGG/GGGGG/BBBBB/DDDDD" symmetry="()"  steps = "1"/>
-            <prl in="BG" out="BS" steps = "1"/>
-            <prl in="SG" out="SS" steps = "96"/>
-            <prl in="S" out="E" steps = "1"/>
-          </sequence>
-        </markov>
+            <sequence>
+              <one in="GGGGG/GGGGG/GGGGG/DDDDD" out="GGGGG/GGGGG/BBBBB/DDDDD" symmetry="()"  steps = "1"/>
+              <prl in="BG" out="BS" steps = "1"/>
+              <prl in="SG" out="SS" steps = "96"/>
+              <prl in="S" out="E" steps = "1"/>
+            </sequence>
+          </markov>
           <prl in="E" out="G" steps = "1"/>
 
-            <!--          
+          <!--          
             <one in="GGGGG/GGGGG/GGGGG/GGGGG/GGGGG" out="GGGGG/GGGGG/GBBBG/GGGGG/GGGGG" symmetry="()" steps = "1"/>
           <one temperature="0" steps = "7">
             <rule in="GGGGG/GGGGG/GGGGG/GGGGG/GGGGG" out="GGGGG/GGGGG/GBBBG/GGGGG/GGGGG" symmetry="()"/>
             <field for="B" from="B" on="G" recompute="True"/>
           </one>
--->
+          -->
 
           <!--Start Platforms-->
           <one in="BCCCCCCC/BCCCCCCC/BCCCCCCC/BCCCCCCC/BCCCCCCC" out="BCCCCCCC/BCOCOCCC/BBBBBBBC/BCCCCCCC/BCCCCCCC" steps="2" symmetry="(x)"/>
@@ -232,10 +279,9 @@
           <prl in="YD" out="YG"/>
 
 
-
-
-       <!--  </map>-->
-      </map>
+        
+          </map>
+        </map>
       </map>
     </map>
   </sequence>
