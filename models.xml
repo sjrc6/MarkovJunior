@@ -1,11 +1,8 @@
 <models>
 
-  <model name="GoresGen3" size="5"/>
-  <model name="GoresGen3" size="7"/>
-  <model name="GoresGen3" size="9"/>
-  <model name="GoresGen3" size="11"/>
-  <model name="GoresGen3" size="13"/>
-  <model name="GoresGen3" size="15"/>
+  <model name="GoresGen3" size="7" amount = "1"/>
+  <model name="GoresGen3" size="11" amount = "1"/>
+  <model name="GoresGen3" size="15" amount = "1"/>
 
   
   gifs
